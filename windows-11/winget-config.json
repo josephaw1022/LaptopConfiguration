@@ -1,0 +1,174 @@
+{
+    "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+    "CreationDate": "2025-01-07T13:46:29.552-00:00",
+    "Sources": [
+        {
+            "Packages": [
+                {
+                    "PackageIdentifier": "CoreyButler.NVMforWindows"
+                },
+                {
+                    "PackageIdentifier": "Docker.DockerDesktop"
+                },
+                {
+                    "PackageIdentifier": "Git.Git"
+                },
+                {
+                    "PackageIdentifier": "Notepad++.Notepad++"
+                },
+                {
+                    "PackageIdentifier": "vim.vim"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.msodbcsql.17"
+                },
+                {
+                    "PackageIdentifier": "OpenJS.NodeJS"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.AzureCLI"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.Azure.AztfExport"
+                },
+                {
+                    "PackageIdentifier": "PuTTY.PuTTY"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.PowerShell"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.Edge"
+                },
+                {
+                    "PackageIdentifier": "Python.Launcher"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.DotNet.SDK.8"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.VCRedist.2015+.x64"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.SQLServerManagementStudio"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.VCRedist.2015+.x86"
+                },
+                {
+                    "PackageIdentifier": "Derailed.k9s"
+                },
+                {
+                    "PackageIdentifier": "FiloSottile.mkcert"
+                },
+                {
+                    "PackageIdentifier": "Google.Chrome.EXE"
+                },
+                {
+                    "PackageIdentifier": "Hashicorp.Terraform"
+                },
+                {
+                    "PackageIdentifier": "Helm.Helm"
+                },
+                {
+                    "PackageIdentifier": "Kubernetes.kind"
+                },
+                {
+                    "PackageIdentifier": "Kubernetes.kubectl"
+                },
+                {
+                    "PackageIdentifier": "Postman.Postman"
+                },
+                {
+                    "PackageIdentifier": "Task.Task"
+                },
+                {
+                    "PackageIdentifier": "ahmetb.kubectx"
+                },
+                {
+                    "PackageIdentifier": "ahmetb.kubens"
+                },
+                {
+                    "PackageIdentifier": "Headlamp.Headlamp"
+                },
+                {
+                    "PackageIdentifier": "Python.Python.3.11"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.PowerToys"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.VisualStudioCode"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.Bicep"
+                },
+                {
+                    "PackageIdentifier": "Python.Python.3.10"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.Teams"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.AppInstaller"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.UI.Xaml.2.7"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.UI.Xaml.2.8"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.VCLibs.Desktop.14"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.DevHome"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.WindowsTerminal"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.WSL"
+                },
+                {
+                    "PackageIdentifier": "Microsoft.Teams.Free"
+                },
+                {
+                    "PackageIdentifier": "Spotify.Spotify"
+                },
+                {
+                    "PackageIdentifier": "GoLang.Go"
+                },
+            ],
+            "SourceDetails": {
+                "Argument": "https://cdn.winget.microsoft.com/cache",
+                "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+                "Name": "winget",
+                "Type": "Microsoft.PreIndexed.Package"
+            }
+        },
+        {
+            "Packages": [
+                {
+                    "PackageIdentifier": "XP8BT8DW290MPQ"
+                },
+                {
+                    "PackageIdentifier": "9P5RWLM70SN9"
+                },
+                {
+                    "PackageIdentifier": "9MV8F79FGXTR"
+                },
+                {
+                    "PackageIdentifier": "9NZCC27PR6N6"
+                }
+            ],
+            "SourceDetails": {
+                "Argument": "https://storeedgefd.dsx.mp.microsoft.com/v9.0",
+                "Identifier": "StoreEdgeFD",
+                "Name": "msstore",
+                "Type": "Microsoft.Rest"
+            }
+        }
+    ],
+    "WinGetVersion": "1.9.25200"
+}
