@@ -27,3 +27,9 @@ This will ensure that all required packages and configurations are applied.
 ## Windows 11 Setup Instructions
 
 If I ever need to reinstall Windows 11, I can simply refer to the `windows-11/winget-config.json` file to restore all your previously installed Winget packages.
+
+```powershell
+
+.\import-winget-packages.ps1
+
+```
