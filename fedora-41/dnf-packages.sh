@@ -33,5 +33,15 @@ sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/
 sudo dnf install gh --repo gh-cli
 
 
-# Install tekton cli 
+# Install tekton cli
 sudo dnf install -y https://github.com/tektoncd/cli/releases/download/v0.39.0/tektoncd-cli-0.39.0_Linux-64bit.rpm
+
+
+# Install terraform
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install terraform
+
+# install the autocompletion script
+source ~/.bash_profile
+terraform -install-autocomplete
