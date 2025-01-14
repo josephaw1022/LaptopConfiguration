@@ -30,6 +30,24 @@ If I ever need to reinstall Windows 11, I can simply refer to the `windows-11/wi
 
 ```powershell
 
-.\import-winget-packages.ps1
+# Define the URL to fetch the winget-config.json file
+$url = "https://raw.githubusercontent.com/josephaw1022/LaptopConfiguration/main/windows-11/winget-config.json"
+
+# Define the relative path to save the file in the current directory
+$savePath = ".\winget-config.json"
+
+# Download the file
+Invoke-WebRequest -Uri $url -OutFile $savePath
+
+# Check if the file was downloaded successfully
+if (Test-Path $savePath) {
+    Write-Host "File downloaded successfully to $savePath"
+
+    # Run winget import with the -i option for the downloaded file
+    winget import -i $savePath
+} else {
+    Write-Host "Failed to download the file."
+}
+
 
 ```
