@@ -43,8 +43,8 @@ Invoke-WebRequest -Uri $url -OutFile $savePath
 if (Test-Path $savePath) {
     Write-Host "File downloaded successfully to $savePath"
 
-    # Run winget import with the -i option for the downloaded file
-    winget import -i $savePath
+    # Run winget import with additional flags for the downloaded file
+    winget import -i $savePath --ignore-unavailable --accept-package-agreements --accept-source-agreements --no-upgrade
 } else {
     Write-Host "Failed to download the file."
 }
