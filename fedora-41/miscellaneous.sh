@@ -75,3 +75,6 @@ curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@qu
 
 # install tilt
 curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
+
+# Install podman compose
+pip3 install podman-compose
