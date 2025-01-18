@@ -7,6 +7,7 @@ sudo dnf install -y \
     go-task \
     java-latest-openjdk.x86_64 \
     vim \
+    pthon3-pip \
     podman podman-docker
 
 # Fix go path from dnf install
