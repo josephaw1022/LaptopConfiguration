@@ -8,8 +8,11 @@ sudo dnf install -y \
     java-latest-openjdk.x86_64 \
     vim \
     pthon3-pip \
-    podman podman-docker \
-    direnv 
+    podman podman-docker podman-overlayfs \
+    direnv \ 
+    jq \
+    yq \
+    bat
 
 # Fix go path from dnf install
 if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
