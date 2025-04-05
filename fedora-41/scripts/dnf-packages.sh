@@ -12,7 +12,8 @@ sudo dnf install -y \
     direnv \ 
     jq \
     yq \
-    bat
+    bat \
+    tmux
 
 # Fix go path from dnf install
 if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
