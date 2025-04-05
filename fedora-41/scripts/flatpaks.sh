@@ -12,3 +12,15 @@ flatpak install flathub com.vixalien.sticky -y
 flatpak install flathub com.github.flxzt.rnote -y
 flatpak install flathub page.tesk.Refine -y
 flatpak install flathub me.iepure.devtoolbox -y
+flatpak install flathub io.podman_desktop.PodmanDesktop -y
+flatpak install flathub org.onlyoffice.desktopeditors -y
+flatpak install flathub de.schmidhuberj.Flare -y
+flatpak install flathub com.brave.Browser -y
+flatpak install flathub im.bernard.Nostalgia -y
+flatpak install flathub com.usebottles.bottles -y
+flatpak install flathub md.obsidian.Obsidian -y
+flatpak install flathub org.mozilla.Thunderbird -y
+flatpak install flathub org.apache.jmeter -y
+flatpak install flathub com.microsoft.AzureStorageExplorer -y
+flatpak install flathub com.lynnmichaelmartin.TimeTracker -y
+
