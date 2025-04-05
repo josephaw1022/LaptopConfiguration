@@ -1,0 +1,91 @@
+version: '3'
+
+tasks:
+  default:
+    desc: "List all available tasks"
+    cmds:
+      - task --list-all
+
+  root-taskfile-edit:
+    desc: "Opens up the root taskfile.yaml file"
+    cmds:
+      - code ~/taskfile.yaml
+
+  restart-dns-svc:
+    cmds:
+      - sudo systemctl restart setup-dnsmasq.service || true
+      - sudo systemd-resolve --flush-caches || true
+      - sudo systemctl restart dnsmasq || true
+    desc: "restart the dnsmasq service in systemd"
+    silent: true
+
+  open-bashrc:
+    desc: "Opens up bashrc file"
+    cmds:
+      - code ~/.bashrc
+
+  refresh-shell:
+    desc: "refreshes shell with bashrc file"
+    cmds:
+      - source ~/.bashrc
+
+  kubeconfig-cache-delete:
+    desc: "Delete the cache in kubeconfig"
+    cmds:
+      - rm -rf ~/.kube/cache
+
+  kubeconfig-kube-dir-delete:
+    desc: "Completely removes the .kube directory"
+    cmds:
+      - rm -rf ~/.kube
+    silent: false
+
+  system-upgrade:
+    desc: "Runs sudo dnf upgrade -y to upgrade the system packages"
+    cmds:
+      - sudo dnf upgrade -y
+    silent: false
+
+
+  docker-remove-all-images:
+    desc: "Removes all Docker images"
+    cmds:
+      - docker image prune -a -f
+
+  docker-remove-all-volumes:
+    desc: "Removes all Docker volumes"
+    cmds:
+      - docker volume prune -f
+
+  docker-remove-all-networks:
+    desc: "Removes all Docker networks except the default ones"
+    cmds:
+      - docker network ls --format "{{.Name}}" | grep -v -E "bridge|host|none" | xargs -r docker network rm
+
+  docker-remove-all-containers:
+    desc: "Removes all Docker containers"
+    cmds:
+      - docker ps -aq | xargs -r docker rm -f
+
+  docker-remove-all:
+    desc: "Completely removes all Docker containers, images, volumes, and networks"
+    cmds:
+      - task docker-remove-all-containers
+      - task docker-remove-all-images
+      - task docker-remove-all-volumes
+      - task docker-remove-all-networks
+
+  go-to-source-repos:
+    desc: "Navigates to the source/repos directory"
+    cmds:
+      - cd ~/source/repos && exec $SHELL
+
+  kind-delete-all-clusters:
+    desc: "Deletes all Kind clusters"
+    cmds:
+      - kind get clusters | xargs -r -I {} kind delete cluster --name {}
+
+  kind-pull-kind-image:
+    desc: "Pulls the latest Kind image"
+    cmds:
+      - docker pull kindest/node:v1.32.3

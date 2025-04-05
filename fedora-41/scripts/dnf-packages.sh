@@ -3,12 +3,13 @@ sudo dnf update -y
 sudo dnf install -y \
     go \
     openssl \
-    dotnet-sdk-8.0 \
+    dotnet-sdk-9.0 \
     go-task \
     java-latest-openjdk.x86_64 \
     vim \
     pthon3-pip \
-    podman podman-docker
+    podman podman-docker \
+    direnv 
 
 # Fix go path from dnf install
 if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
@@ -44,5 +45,5 @@ sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/has
 sudo dnf -y install terraform
 
 # install the autocompletion script
-source ~/.bash_profile
+source ~/.bashrc
 terraform -install-autocomplete
