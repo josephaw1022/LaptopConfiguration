@@ -13,8 +13,8 @@ sudo dnf install -y \
     jq \
     yq \
     bat \
-    tmux
-
+    tmux \
+    toolbox
 # Fix go path from dnf install
 if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
     echo "Adding $HOME/go/bin to PATH..."
