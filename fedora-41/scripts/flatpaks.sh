@@ -23,4 +23,6 @@ flatpak install flathub org.mozilla.Thunderbird -y
 flatpak install flathub org.apache.jmeter -y
 flatpak install flathub com.microsoft.AzureStorageExplorer -y
 flatpak install flathub com.lynnmichaelmartin.TimeTracker -y
+flatpak install flathub app.devsuite.Ptyxis -y
+flatpak install flathub com.redis.RedisInsight -y
 
