@@ -9,12 +9,13 @@ sudo dnf install -y \
     vim \
     pthon3-pip \
     podman podman-docker podman-overlayfs \
-    direnv \ 
+    direnv \
     jq \
     yq \
     bat \
     tmux \
     toolbox
+
 # Fix go path from dnf install
 if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
     echo "Adding $HOME/go/bin to PATH..."
