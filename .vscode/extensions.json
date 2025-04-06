@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "github.copilot",
+        "redhat.ansible",
+        "shakram02.bash-beautify",
+        "rogalmic.bash-debug",
+        "mads-hartmann.bash-ide-vscode",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml"
+    ]
+}
