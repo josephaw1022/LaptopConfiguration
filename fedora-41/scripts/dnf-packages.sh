@@ -17,19 +17,21 @@ sudo dnf install -y \
     toolbox \
     make
 
-# Fix go path from dnf install
-if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
-    echo "Adding $HOME/go/bin to PATH..."
-    SHELL_CONFIG="$HOME/.bashrc"
-    if [ -f "$HOME/.bash_profile" ]; then
-        SHELL_CONFIG="$HOME/.bash_profile"
-    fi
+# This may need to be uncommented if for some reason, go is still not working as an executable after installation and restart
 
-    echo "export PATH=\$PATH:\$HOME/go/bin" >> "$SHELL_CONFIG"
-    echo "Updated $SHELL_CONFIG. Please reload your shell or run 'source $SHELL_CONFIG'."
-else
-    echo "$HOME/go/bin is already in PATH."
-fi
+# # Fix go path from dnf install
+# if [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
+#     echo "Adding $HOME/go/bin to PATH..."
+#     SHELL_CONFIG="$HOME/.bashrc"
+#     if [ -f "$HOME/.bash_profile" ]; then
+#         SHELL_CONFIG="$HOME/.bash_profile"
+#     fi
+
+#     echo "export PATH=\$PATH:\$HOME/go/bin" >> "$SHELL_CONFIG"
+#     echo "Updated $SHELL_CONFIG. Please reload your shell or run 'source $SHELL_CONFIG'."
+# else
+#     echo "$HOME/go/bin is already in PATH."
+# fi
 
 
 # Install PowerShell
