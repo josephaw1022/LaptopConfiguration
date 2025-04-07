@@ -1,9 +1,3 @@
-# install vs-code
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-dnf check-update
-sudo dnf install code
-
 
 # Install Dapr CLI if not already installed
 if ! command -v dapr &> /dev/null; then
@@ -12,33 +6,6 @@ if ! command -v dapr &> /dev/null; then
 else
     echo "Dapr CLI is already installed."
 fi
-
-# Install NVM if not already installed
-if [ ! -d "$HOME/.nvm" ]; then
-    echo "Installing NVM..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-
-    # Load NVM for the current session
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-else
-    echo "NVM is already installed."
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# Ensure Node.js version 22 is installed and in use
-if ! nvm ls 22 &> /dev/null; then
-    echo "Installing Node.js 22..."
-    nvm install 22
-else
-    echo "Node.js 22 is already installed."
-fi
-
-echo "Using Node.js 22..."
-nvm use 22
 
 
 
@@ -50,8 +17,8 @@ go install github.com/cloudflare/cfssl/cmd/...@latest
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-rm -rf aws
-rm -rf awscliv2.zip
+rm -rf ./aws
+rm -rf ./awscliv2.zip
 
 # install localstack
 LOCALSTACK_VERSION="4.0.0"
@@ -68,13 +35,5 @@ fi
 
 
 
-# install quarkus 
-curl -Ls https://sh.jbang.dev | bash -s - trust add https://repo1.maven.org/maven2/io/quarkus/quarkus-cli/
-curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
-
-
 # install tilt
 curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
-
-# Install podman compose
-pip3 install podman-compose
