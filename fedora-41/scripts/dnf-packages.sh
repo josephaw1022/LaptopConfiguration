@@ -7,7 +7,7 @@ sudo dnf install -y \
     go-task \
     java-latest-openjdk.x86_64 \
     vim \
-    pthon3-pip \
+    python3-pip \
     podman podman-docker podman-overlayfs \
     direnv \
     jq \
