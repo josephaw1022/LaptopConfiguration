@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# if gh is not installed, install it
+
+if ! command -v gh &> /dev/null; then
+    echo "🔍 GitHub CLI (gh) not found. Installing..."
+    # DNF5 installation commands
+    sudo dnf install dnf5-plugins
+    sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
+    sudo dnf install gh --repo gh-cli
+fi
+
+
+
 # Prompt for Git user info
 read -rp "Enter your Git username: " git_username
 read -rp "Enter your Git email: " git_email
