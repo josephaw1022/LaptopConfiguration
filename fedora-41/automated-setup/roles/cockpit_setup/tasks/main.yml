@@ -1,0 +1,44 @@
+---
+- name: Upgrade all system packages safely (allow erasing conflicts)
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+    update_cache: true
+    allowerasing: true
+
+- name: Install Cockpit
+  ansible.builtin.dnf:
+    name: cockpit
+    state: present
+
+- name: Enable and start Cockpit socket
+  ansible.builtin.systemd:
+    name: cockpit.socket
+    enabled: true
+    state: started
+
+- name: Check if firewalld is active
+  ansible.builtin.command: firewall-cmd --state
+  register: firewalld_status
+  failed_when: false
+  changed_when: false
+
+- name: Open port 9090 in firewalld for Cockpit
+  when: firewalld_status.rc == 0
+  block:
+    - name: Add Cockpit service to firewalld permanently
+      ansible.posix.firewalld:
+        service: cockpit
+        permanent: true
+        state: enabled
+        immediate: false
+
+    - name: Disable firewalld
+      ansible.posix.firewalld:
+        state: disabled
+        immediate: true
+
+    - name: Enable firewalld
+      ansible.posix.firewalld:
+        state: enabled
+        immediate: true

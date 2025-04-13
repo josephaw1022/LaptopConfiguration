@@ -1,0 +1,4 @@
+---
+kubernetes_tools_kind_version: v0.27.0
+kubernetes_tools_istio_version: 1.24.2
+kubernetes_tools_istioctl_force_install: true

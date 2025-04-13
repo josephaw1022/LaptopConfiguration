@@ -8,11 +8,7 @@ This repository contains configuration files and scripts for managing and settin
   Contains the `winget-config.json` file, which includes all the Winget packages I installed on my Windows 11 laptop. This file serves as a backup so that I can quickly reinstall all my software if I ever need to set up a new Windows 11 environment.
 
 - **fedora-41**  
-  Contains a series of shell scripts for configuring my Fedora 41 system:
-  - **dnf-packages.sh**: Installs essential DNF packages.
-  - **flatpaks.sh**: Installs Flatpak packages.
-  - **kubernetes-tooling.sh**: Installs Kubernetes-related tools.
-  - **miscellaneous.sh**: Installs other necessary tools and configures miscellaneous settings.
+  Contains a series of shell scripts for configuring my Fedora 41 system
 
 ## Fedora 41 Setup Instructions
 

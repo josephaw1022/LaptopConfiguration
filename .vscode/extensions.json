@@ -9,6 +9,7 @@
         "redhat.vscode-yaml",
         "vscode-icons-team.vscode-icons",
         "vscodevim.vim",
-        "github.github-vscode-theme"
+        "github.github-vscode-theme",
+        "ms-vscode.makefile-tools"
     ]
 }

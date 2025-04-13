@@ -1,0 +1,22 @@
+
+---
+base_packages:
+  - openssl
+  - dotnet-sdk-9.0
+  - go-task
+  - java-latest-openjdk.x86_64
+  - vim
+  - python3-pip
+  - podman
+  - podman-docker
+  - direnv
+  - jq
+  - yq
+  - bat
+  - tmux
+  - toolbox
+  - make
+
+extra_dnf_packages:
+  - dnf5-plugins
+  - dnf-plugins-core

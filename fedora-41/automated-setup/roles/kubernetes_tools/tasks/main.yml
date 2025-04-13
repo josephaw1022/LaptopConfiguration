@@ -1,0 +1,162 @@
+---
+- name: Download Go 1.24.2 tarball
+  ansible.builtin.get_url:
+    url: https://go.dev/dl/go1.24.2.linux-amd64.tar.gz
+    dest: /tmp/go1.24.2.linux-amd64.tar.gz
+    mode: '0644'
+
+- name: Remove existing Go installation
+  ansible.builtin.file:
+    path: /usr/local/go
+    state: absent
+  become: true
+
+- name: Extract Go to /usr/local
+  ansible.builtin.unarchive:
+    src: /tmp/go1.24.2.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+    creates: /usr/local/go/bin/go
+  become: true
+
+- name: Make bashrc.d directory
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.bashrc.d"
+    state: directory
+    mode: '0755'
+  become: false
+
+- name: Copy go-path.sh
+  ansible.builtin.copy:
+    src: go-path.sh
+    dest: "{{ ansible_user_dir }}/.bashrc.d/go-path.sh"
+    mode: '0644'
+    owner: 'jwhiteaker'
+    group: 'jwhiteaker'
+
+
+- name: Copy go-path.sh to bashrc.d
+  ansible.builtin.copy:
+    src: go-path.sh
+    dest: "{{ ansible_user_dir }}/.bashrc.d/go-path.sh"
+    mode: '0644'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: false
+
+
+- name: Get latest kubectl version
+  ansible.builtin.uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: true
+  register: kubectl_version
+
+
+- name: Ensure ~/.local/bin exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: '0755'
+
+- name: Install kubectl to user-local bin
+  ansible.builtin.copy:
+    src: /tmp/kubectl
+    dest: "{{ ansible_env.HOME }}/.local/bin/kubectl"
+    remote_src: true
+    mode: '0755'
+    force: true
+
+- name: Install kubectl
+  ansible.builtin.copy:
+    src: /tmp/kubectl
+    dest: /usr/local/bin/kubectl
+    remote_src: true
+    mode: '0755'
+    force: true
+  become: true
+
+
+- name: Install Helm
+  ansible.builtin.dnf:
+    name: helm
+    state: present
+  become: true
+
+- name: Clone kubectx if not already present
+  ansible.builtin.git:
+    repo: https://github.com/ahmetb/kubectx
+    dest: /opt/kubectx
+    version: master
+    force: false
+  become: true
+
+- name: Symlink kubectx
+  ansible.builtin.file:
+    src: /opt/kubectx/kubectx
+    dest: /usr/local/bin/kubectx
+    state: link
+    force: true
+  become: true
+
+- name: Symlink kubens
+  ansible.builtin.file:
+    src: /opt/kubectx/kubens
+    dest: /usr/local/bin/kubens
+    state: link
+    force: true
+  become: true
+
+- name: Install Kind
+  ansible.builtin.shell: |
+    go install sigs.k8s.io/kind@{{ kubernetes_tools_kind_version }}
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/go/bin/kind"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
+  become: true
+
+- name: Install cloud-provider-kind
+  ansible.builtin.shell: |
+    go install sigs.k8s.io/cloud-provider-kind@latest
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/go/bin/cloud-provider-kind"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
+  become: true
+
+- name: Download ArgoCD CLI
+  ansible.builtin.get_url:
+    url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    dest: /tmp/argocd
+    mode: '0555'
+  become: true
+
+- name: Install ArgoCD CLI
+  ansible.builtin.copy:
+    src: /tmp/argocd
+    dest: /usr/local/bin/argocd
+    remote_src: true
+    mode: '0555'
+    force: true
+  become: true
+
+- name: Download Istio installation script
+  ansible.builtin.get_url:
+    url: https://istio.io/downloadIstio
+    dest: /tmp/downloadIstio.sh
+    mode: '0755'
+  become: true
+
+- name: Install istioctl
+  ansible.builtin.shell: |
+    set -o pipefail
+    /tmp/downloadIstio.sh | ISTIO_VERSION={{ kubernetes_tools_istio_version }} sh -
+    sudo mv istio-{{ kubernetes_tools_istio_version }}/bin/istioctl /usr/local/bin/
+    rm -rf istio-{{ kubernetes_tools_istio_version }}
+  args:
+    executable: /bin/bash
+    creates: /usr/local/bin/istioctl
+  when: kubernetes_tools_istioctl_force_install
+  become: true

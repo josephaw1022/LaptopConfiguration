@@ -1,0 +1,36 @@
+# Ansible vault or sudo password files
+.ansible_sudo_password
+.vault_pass.txt
+
+# Local collections and roles (if installed to project)
+collections/
+roles/*/molecule/
+roles/*/tests/output/
+
+# Python cache (if you're using filters or plugins)
+__pycache__/
+*.py[cod]
+
+# Backup files from editors
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Logs and retries
+*.retry
+*.log
+
+# VSCode or JetBrains IDE metadata
+.vscode/
+.idea/
+
+# SSH control path sockets
+~/.ansible/cp/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+.ansible
+

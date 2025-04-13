@@ -1,0 +1,62 @@
+---
+- name: Ensure Flatpak is installed
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+
+- name: Add Flathub remote system-wide
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: system
+
+- name: Install Flatpak apps from Flathub
+  community.general.flatpak:
+    name: "{{ flatpak_apps_list }}"
+    state: present
+    remote: flathub
+    method: system
+
+# --- Begin VS Code installation ---
+
+- name: Import Microsoft GPG key
+  ansible.builtin.rpm_key:
+    key: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add VS Code YUM repository
+  ansible.builtin.copy:
+    dest: /etc/yum.repos.d/vscode.repo
+    content: |
+      [code]
+      name=Visual Studio Code
+      baseurl=https://packages.microsoft.com/yumrepos/vscode
+      enabled=1
+      autorefresh=1
+      type=rpm-md
+      gpgcheck=1
+      gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+    mode: '0644'
+  become: true
+
+- name: Install Visual Studio Code
+  ansible.builtin.package:
+    name: code
+    state: present
+  become: true
+
+# --- End VS Code installation ---
+
+- name: Debug GNOME favorites command
+  ansible.builtin.debug:
+    msg: "gsettings set org.gnome.shell favorite-apps {{ \"['{}']\".format(flatpak_apps_gnome_favorites | join(\"', '\") ) }}"
+
+
+- name: Set GNOME favorite apps
+  ansible.builtin.shell: |
+    gsettings set org.gnome.shell favorite-apps "{{ "['{}']".format(flatpak_apps_gnome_favorites | join("', '")) }}"
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: false

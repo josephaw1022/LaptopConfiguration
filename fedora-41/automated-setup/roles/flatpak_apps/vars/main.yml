@@ -1,0 +1,43 @@
+---
+flatpak_apps_list:
+  - io.github.flattool.Warehouse
+  - io.kinvolk.Headlamp
+  - com.microsoft.Edge
+  - org.pgadmin.pgadmin4
+  - com.slack.Slack
+  - com.github.IsmaelMartinez.teams_for_linux
+  - com.spotify.Client
+  - com.discordapp.Discord
+  - com.vixalien.sticky
+  - com.github.flxzt.rnote
+  - page.tesk.Refine
+  - me.iepure.devtoolbox
+  - io.podman_desktop.PodmanDesktop
+  - org.onlyoffice.desktopeditors
+  - de.schmidhuberj.Flare
+  - com.brave.Browser
+  - im.bernard.Nostalgia
+  - com.usebottles.bottles
+  - md.obsidian.Obsidian
+  - org.mozilla.Thunderbird
+  - org.apache.jmeter
+  - com.microsoft.AzureStorageExplorer
+  - com.lynnmichaelmartin.TimeTracker
+  - app.devsuite.Ptyxis
+  - com.redis.RedisInsight
+
+flatpak_apps_gnome_favorites:
+  - com.brave.Browser.desktop
+  - org.mozilla.Thunderbird.desktop
+  - code.desktop
+  - app.devsuite.Ptyxis.desktop
+  - io.podman_desktop.PodmanDesktop.desktop
+  - io.kinvolk.Headlamp.desktop
+  - org.pgadmin.pgadmin4.desktop
+  - me.iepure.devtoolbox.desktop
+  - com.vixalien.sticky.desktop
+  - com.spotify.Client.desktop
+  - org.gnome.Calendar.desktop
+  - org.gnome.Nautilus.desktop
+  - org.gnome.Software.desktop
+  - org.gnome.TextEditor.desktop

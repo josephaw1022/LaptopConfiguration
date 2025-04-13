@@ -1,0 +1,13 @@
+---
+cli_tools_dapr_cli_install_url: https://raw.githubusercontent.com/dapr/cli/master/install/install.sh
+
+cli_tools_cfssl_go_package: github.com/cloudflare/cfssl/cmd/...@latest
+
+cli_tools_aws_cli_url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+cli_tools_aws_cli_bin_dir: /usr/local/bin
+cli_tools_aws_cli_install_dir: /usr/local/aws-cli
+
+cli_tools_localstack_version_required: "4.0.0"
+cli_tools_localstack_download_url: "https://github.com/localstack/localstack-cli/releases/download/v{{ cli_tools_localstack_version_required }}/localstack-cli-{{ cli_tools_localstack_version_required }}-linux-amd64-onefile.tar.gz"
+
+cli_tools_tilt_install_script_url: https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh

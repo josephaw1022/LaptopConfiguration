@@ -1,0 +1,70 @@
+---
+- name: Install base packages individually (tolerant)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ base_packages }}"
+  register: package_results
+  ignore_errors: true
+  tags: base_packages
+
+- name: Report any failed package installs
+  ansible.builtin.debug:
+    msg: "❌ Failed to install package '{{ item.item }}' (rc={{ item.rc }}): {{ item.msg | default('unknown error') }}"
+  loop: "{{ package_results.results | selectattr('failed', 'defined') | selectattr('failed', 'eq', true) | list }}"
+  when: package_results is defined and package_results.results | length > 0
+
+- name: Ensure ~/.bashrc.d exists
+  ansible.builtin.file:
+    path: ~/.bashrc.d
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+  become: true
+
+
+- name: Import Microsoft GPG key for PowerShell
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://packages.microsoft.com/keys/microsoft.asc
+
+- name: Install PowerShell from official .rpm
+  ansible.builtin.dnf:
+    name: https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell-7.4.6-1.rh.x86_64.rpm
+    state: present
+
+
+- name: Install extra DNF plugins
+  ansible.builtin.dnf:
+    name: "{{ extra_dnf_packages }}"
+    state: present
+
+- name: Add GitHub CLI repo
+  ansible.builtin.command: >
+    dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
+  args:
+    creates: /etc/yum.repos.d/gh-cli.repo
+
+- name: Install GitHub CLI
+  ansible.builtin.dnf:
+    name: gh
+    state: present
+
+- name: Install Tekton CLI
+  ansible.builtin.dnf:
+    name: https://github.com/tektoncd/cli/releases/download/v0.39.0/tektoncd-cli-0.39.0_Linux-64bit.rpm
+    state: present
+    disable_gpg_check: true
+
+- name: Add HashiCorp repo for Terraform
+  ansible.builtin.get_url:
+    url: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    dest: /etc/yum.repos.d/hashicorp.repo
+    mode: '0644'
+
+
+- name: Install Terraform
+  ansible.builtin.dnf:
+    name: terraform
+    state: present
