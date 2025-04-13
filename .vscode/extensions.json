@@ -6,6 +6,7 @@
         "rogalmic.bash-debug",
         "mads-hartmann.bash-ide-vscode",
         "redhat.vscode-xml",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "vscode-icons-team.vscode-icons"
     ]
 }
