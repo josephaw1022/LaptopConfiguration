@@ -7,5 +7,5 @@ python3 -m pip install --user ansible
 python3 -m pip install --user ansible-core
 
 # Install Ansible Dev Tools
-pip install ansible-dev-tools
+python3 -m pip install ansible-dev-tools
 
