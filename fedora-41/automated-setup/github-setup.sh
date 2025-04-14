@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 # Ensure GitHub CLI is installed
 if ! command -v gh &> /dev/null; then

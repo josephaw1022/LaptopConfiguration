@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
 
 echo "📦 Updating system packages..."
 sudo dnf update -y
