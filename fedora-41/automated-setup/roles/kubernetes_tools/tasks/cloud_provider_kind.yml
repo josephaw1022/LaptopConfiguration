@@ -3,8 +3,9 @@
   ansible.builtin.shell: |
     go install sigs.k8s.io/cloud-provider-kind@latest
   args:
-    executable: /bin/bash
-    creates: "{{ ansible_env.HOME }}/go/bin/cloud-provider-kind"
+    creates: "usr/local/go/bin/cloud-provider-kind"
   environment:
-    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
-  become: true
+    GOBIN: "{{ ansible_env.HOME }}/.local/bin"
+    PATH: "{{ ansible_env.PATH }}:/usr/local/go/bin"
+
+  become: false
