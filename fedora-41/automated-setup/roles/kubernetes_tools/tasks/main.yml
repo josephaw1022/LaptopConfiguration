@@ -7,6 +7,8 @@
 
 - import_tasks: kind.yml
 
+- import_tasks: k9s.yml
+
 - import_tasks: cloud_provider_kind.yml
   ignore_errors: true
 
