@@ -4,9 +4,7 @@ set -euo pipefail
 # Ensure GitHub CLI is installed
 if ! command -v gh &> /dev/null; then
     echo "🔍 GitHub CLI (gh) not found. Installing..."
-    sudo dnf install -y dnf5-plugins-core
-    sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-    sudo dnf install -y gh --repo gh-cli
+    sudo dnf install gh -y
 fi
 
 # Prompt for Git config only if unset
