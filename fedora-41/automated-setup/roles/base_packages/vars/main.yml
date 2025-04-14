@@ -15,6 +15,7 @@ base_packages:
   - bat
   - tmux
   - toolbox
+  - podman-toolbox
   - make
   - rust
   - cargo
