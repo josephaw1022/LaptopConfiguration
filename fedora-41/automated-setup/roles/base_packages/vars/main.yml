@@ -16,6 +16,8 @@ base_packages:
   - tmux
   - toolbox
   - make
+  - rust
+  - cargo
 
 extra_dnf_packages:
   - dnf5-plugins
