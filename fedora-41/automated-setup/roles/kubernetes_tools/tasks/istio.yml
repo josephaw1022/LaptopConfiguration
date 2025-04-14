@@ -1,26 +1,39 @@
----
 - name: Check if istioctl is installed
   ansible.builtin.command: which istioctl
   register: istio_check
   ignore_errors: true
   changed_when: false
+  become: false
 
-- name: Download Istio installation script
+- name: Set Istio download URL
+  ansible.builtin.set_fact:
+    istio_url: "https://github.com/istio/istio/releases/download/{{ kubernetes_tools_istio_version }}/istio-{{ kubernetes_tools_istio_version }}-linux-amd64.tar.gz"
+
+- name: Download Istio release archive
   ansible.builtin.get_url:
-    url: https://istio.io/downloadIstio
-    dest: /tmp/downloadIstio.sh
-    mode: '0755'
-  become: true
-  when: istio_check.rc != 0
+    url: "{{ istio_url }}"
+    dest: "/tmp/istio-{{ kubernetes_tools_istio_version }}.tar.gz"
+    mode: '0644'
+  when: istio_check.rc != 0 and kubernetes_tools_istioctl_force_install
+
+- name: Extract istioctl binary
+  ansible.builtin.unarchive:
+    src: "/tmp/istio-{{ kubernetes_tools_istio_version }}.tar.gz"
+    dest: /tmp/
+    remote_src: true
+  when: istio_check.rc != 0 and kubernetes_tools_istioctl_force_install
 
 - name: Install istioctl
-  ansible.builtin.shell: |
-    set -o pipefail
-    /tmp/downloadIstio.sh | ISTIO_VERSION={{ kubernetes_tools_istio_version }} sh -
-    sudo mv istio-{{ kubernetes_tools_istio_version }}/bin/istioctl /usr/local/bin/
-    rm -rf istio-{{ kubernetes_tools_istio_version }}
-  args:
-    executable: /bin/bash
-    creates: /usr/local/bin/istioctl
-  become: true
+  ansible.builtin.copy:
+    src: "/tmp/istio-{{ kubernetes_tools_istio_version }}/bin/istioctl"
+    dest: /usr/local/bin/istioctl
+    mode: '0755'
   when: istio_check.rc != 0 and kubernetes_tools_istioctl_force_install
+  become: true
+
+- name: Clean up extracted Istio folder
+  ansible.builtin.file:
+    path: "/tmp/istio-{{ kubernetes_tools_istio_version }}"
+    state: absent
+  when: istio_check.rc != 0 and kubernetes_tools_istioctl_force_install
+  become: true
