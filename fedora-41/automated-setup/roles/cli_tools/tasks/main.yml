@@ -38,7 +38,7 @@
 
 - name: Install NVM
   ansible.builtin.import_tasks: nvm.yml
-  ignore_errors: false
+  ignore_errors: true
 
 - name: Install Quarkus CLI
   ansible.builtin.import_tasks: quarkus.yml
