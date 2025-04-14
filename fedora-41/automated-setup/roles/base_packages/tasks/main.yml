@@ -28,3 +28,19 @@
   ansible.builtin.dnf:
     name: "{{ extra_dnf_packages }}"
     state: present
+
+- name: Install Taskfile binary if not present
+  ansible.builtin.shell: |
+    sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b {{ ansible_env.HOME }}/.local/bin
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/.local/bin/task"
+  become: false
+
+- name: Copy root Taskfile if missing or changed
+  ansible.builtin.copy:
+    src: taskfile.yaml
+    dest: "{{ ansible_env.HOME }}/taskfile.yaml"
+    mode: '0644'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
