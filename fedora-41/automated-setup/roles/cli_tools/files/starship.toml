@@ -36,3 +36,12 @@ style = "bold magenta"
 [character]
 success_symbol = "[➜](green)"
 error_symbol = "[➜](red)"
+
+
+[terraform]
+format = '[🏎💨 $version$workspace]($style) '
+
+[dotnet]
+symbol = '🥅 '
+style = 'green'
+heuristic = false
