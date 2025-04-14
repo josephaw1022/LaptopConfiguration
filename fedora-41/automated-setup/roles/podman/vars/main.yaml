@@ -1,0 +1,6 @@
+podman_network_name: homelabnetwork
+podman_network_parent_interface: eth0
+podman_macvlan_interface: macvlan0
+podman_network_subnet: 192.168.0.0/21
+podman_network_gateway: 192.168.2.1
+podman_macvlan_ip: 192.168.0.3/21

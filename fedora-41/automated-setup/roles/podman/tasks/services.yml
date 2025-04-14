@@ -1,0 +1,35 @@
+---
+- name: Enable and start Podman socket
+  ansible.builtin.systemd:
+    name: podman.socket
+    enabled: true
+    state: started
+  become: true
+
+- name: Enable and start netavark-dhcp-proxy socket
+  ansible.builtin.systemd:
+    name: netavark-dhcp-proxy.socket
+    enabled: true
+    state: started
+  become: true
+
+- name: Enable and start Podman service
+  ansible.builtin.systemd:
+    name: podman.service
+    enabled: true
+    state: started
+  become: true
+
+- name: Enable and start Podman auto-update service
+  ansible.builtin.systemd:
+    name: podman-auto-update.service
+    enabled: true
+    state: started
+  become: true
+
+- name: Enable and start Podman restart service
+  ansible.builtin.systemd:
+    name: podman-restart.service
+    enabled: true
+    state: started
+  become: true

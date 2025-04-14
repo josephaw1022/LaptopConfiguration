@@ -1,0 +1,10 @@
+---
+- name: Ensure Podman, Podman-Docker, and Podman-Compose are installed
+  ansible.builtin.package:
+    name:
+      - podman
+      - podman-docker
+      - podman-compose
+      - podlet
+    state: present
+  become: true

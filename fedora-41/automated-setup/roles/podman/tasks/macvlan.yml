@@ -1,0 +1,33 @@
+---
+- name: Ensure macvlan Podman network exists
+  containers.podman.podman_network:
+    name: "{{ podman_network_name }}"
+    driver: macvlan
+    subnet: "{{ podman_network_subnet }}"
+    gateway: "{{ podman_network_gateway }}"
+    macvlan: "{{ podman_network_parent_interface }}"
+    state: present
+  become: true
+
+
+- name: Delete existing host macvlan interface (if exists)
+  ansible.builtin.command: ip link delete {{ podman_macvlan_interface }}
+  register: delete_macvlan
+  failed_when: false
+  changed_when: delete_macvlan.rc == 0
+  become: true
+
+- name: Create macvlan interface on host
+  ansible.builtin.command: >
+    ip link add {{ podman_macvlan_interface }}
+    link {{ podman_network_parent_interface }}
+    type macvlan mode bridge
+  become: true
+
+- name: Assign IP to macvlan interface
+  ansible.builtin.command: ip addr add {{ podman_macvlan_ip }} dev {{ podman_macvlan_interface }}
+  become: true
+
+- name: Bring macvlan interface up
+  ansible.builtin.command: ip link set {{ podman_macvlan_interface }} up
+  become: true
