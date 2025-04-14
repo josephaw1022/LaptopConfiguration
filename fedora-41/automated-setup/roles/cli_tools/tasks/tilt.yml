@@ -1,0 +1,24 @@
+---
+- name: Check if Tilt is installed
+  ansible.builtin.command: which tilt
+  register: cli_tools_tilt_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Download Tilt install script
+  ansible.builtin.uri:
+    url: "{{ cli_tools_tilt_install_script_url }}"
+    dest: /tmp/tilt-install.sh
+    method: GET
+    return_content: false
+    status_code: 200
+  when: cli_tools_tilt_check.rc != 0
+
+- name: Execute Tilt install script
+  ansible.builtin.shell: |
+    set -o pipefail
+    /bin/bash /tmp/tilt-install.sh
+  args:
+    executable: /bin/bash
+  changed_when: false
+  when: cli_tools_tilt_check.rc != 0

@@ -1,104 +1,49 @@
 ---
-- name: Check if Dapr CLI is installed
-  ansible.builtin.command: which dapr
-  register: cli_tools_dapr_cli_check
-  ignore_errors: true
-  changed_when: false
 
-- name: Download Dapr CLI installer
-  ansible.builtin.uri:
-    url: "{{ cli_tools_dapr_cli_install_url }}"
-    dest: /tmp/dapr-installer.sh
-    method: GET
-    return_content: false
-    status_code: 200
-  register: dapr_download_result
-  when: cli_tools_dapr_cli_check.rc != 0 and not (ansible.builtin.stat.path == '/tmp/dapr-installer.sh' and ansible.builtin.stat.stat.exists)
+- name: Ansible Tooling
+  ansible.builtin.import_tasks: ansible-tooling.yml
+  ignore_errors: true
 
 - name: Install Dapr CLI
-  ansible.builtin.shell: |
-    set -o pipefail
-    /bin/bash /tmp/dapr-installer.sh
-  args:
-    executable: /bin/bash
-  when: cli_tools_dapr_cli_check.rc != 0
-  changed_when: false
+  ansible.builtin.import_tasks: dapr.yml
+  ignore_errors: true
 
-- name: Install cfssl via Go
-  ansible.builtin.command: go install {{ cli_tools_cfssl_go_package }}
-  environment:
-    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
-  changed_when: false
-
-- name: Download AWS CLI archive
-  ansible.builtin.get_url:
-    url: "{{ cli_tools_aws_cli_url }}"
-    dest: /tmp/awscliv2.zip
-    mode: '0644'
-
-- name: Unzip AWS CLI
-  ansible.builtin.unarchive:
-    src: /tmp/awscliv2.zip
-    dest: /tmp
-    remote_src: true
-    creates: /tmp/aws/install
+- name: Install cfssl
+  ansible.builtin.import_tasks: cfssl.yml
+  ignore_errors: true
 
 - name: Install AWS CLI
-  ansible.builtin.command: ./aws/install --update
-  args:
-    chdir: /tmp
-  become: true
-
-
-- name: Clean up AWS CLI temp files
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/aws
-    - /tmp/awscliv2.zip
-
-- name: Check current LocalStack version
-  ansible.builtin.command: localstack --version
-  register: cli_tools_localstack_version
+  ansible.builtin.import_tasks: aws.yml
   ignore_errors: true
-  failed_when: false
-  changed_when: false
-
-- name: Download LocalStack CLI
-  ansible.builtin.get_url:
-    url: "{{ cli_tools_localstack_download_url }}"
-    dest: /tmp/localstack-cli.tar.gz
-    mode: '0644'
-  when: cli_tools_localstack_version.stdout is not defined or not cli_tools_localstack_version.stdout.startswith(cli_tools_localstack_version_required)
 
 - name: Install LocalStack CLI
-  ansible.builtin.unarchive:
-    src: /tmp/localstack-cli.tar.gz
-    dest: /usr/local/bin
-    remote_src: true
-    extra_opts: [--strip-components=0]
-  become: true
-  when: cli_tools_localstack_version.stdout is not defined or not cli_tools_localstack_version.stdout.startswith(cli_tools_localstack_version_required)
+  ansible.builtin.import_tasks: localstack.yml
+  ignore_errors: true
 
-- name: Remove LocalStack CLI archive
-  ansible.builtin.file:
-    path: /tmp/localstack-cli.tar.gz
-    state: absent
-  when: cli_tools_localstack_version.stdout is not defined or not cli_tools_localstack_version.stdout.startswith(cli_tools_localstack_version_required)
+- name: Install Tilt
+  ansible.builtin.import_tasks: tilt.yml
+  ignore_errors: true
 
-- name: Download Tilt install script
-  ansible.builtin.uri:
-    url: "{{ cli_tools_tilt_install_script_url }}"
-    dest: /tmp/tilt-install.sh
-    method: GET
-    return_content: false
-    status_code: 200
+- name: Install Go
+  ansible.builtin.import_tasks: go-lang.yml
+  ignore_errors: false
 
-- name: Execute Tilt install script
-  ansible.builtin.shell: |
-    set -o pipefail
-    /bin/bash /tmp/tilt-install.sh
-  args:
-    executable: /bin/bash
-  changed_when: false
+- name: Install PowerShell
+  ansible.builtin.import_tasks: powershell.yml
+  ignore_errors: false
+
+- name: Install Terraform
+  ansible.builtin.import_tasks: terraform.yml
+  ignore_errors: false
+
+- name: Install NVM
+  ansible.builtin.import_tasks: nvm.yml
+  ignore_errors: false
+
+- name: Install Quarkus CLI
+  ansible.builtin.import_tasks: quarkus.yml
+  ignore_errors: false
+
+- name: Install Starship
+  ansible.builtin.import_tasks: starship.yml
+  ignore_errors: false

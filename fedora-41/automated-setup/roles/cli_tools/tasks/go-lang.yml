@@ -1,0 +1,34 @@
+- name: Check if Go is already installed to /usr/local
+  ansible.builtin.stat:
+    path: /usr/local/go/bin/go
+  register: cli_tools_go_stat
+
+- name: Download Go tarball
+  ansible.builtin.get_url:
+    url: https://go.dev/dl/go1.24.2.linux-amd64.tar.gz
+    dest: /tmp/go1.24.2.linux-amd64.tar.gz
+    mode: '0644'
+  when: not cli_tools_go_stat.stat.exists
+
+- name: Extract Go to /usr/local
+  ansible.builtin.unarchive:
+    src: /tmp/go1.24.2.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: true
+    creates: /usr/local/go/bin/go
+  become: true
+  when: not cli_tools_go_stat.stat.exists
+
+- name: Ensure ~/.bashrc.d exists
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.bashrc.d"
+    state: directory
+    mode: '0755'
+
+- name: Copy go-path.sh to bashrc.d
+  ansible.builtin.copy:
+    src: go-path.sh
+    dest: "{{ ansible_user_dir }}/.bashrc.d/go-path.sh"
+    mode: '0644'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

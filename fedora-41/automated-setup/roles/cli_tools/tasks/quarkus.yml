@@ -1,0 +1,22 @@
+---
+- name: Check if Quarkus CLI is installed
+  ansible.builtin.command: which quarkus
+  register: quarkus_check
+  ignore_errors: true
+  become: false
+
+- name: Trust Quarkus CLI Maven repo (via jbang)
+  ansible.builtin.shell: |
+    curl -Ls https://sh.jbang.dev | bash -s - trust add https://repo1.maven.org/maven2/io/quarkus/quarkus-cli/
+  args:
+    executable: /bin/bash
+  when: quarkus_check.rc != 0
+  become: false
+
+- name: Install Quarkus CLI using jbang
+  ansible.builtin.shell: |
+    curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
+  args:
+    executable: /bin/bash
+  when: quarkus_check.rc != 0
+  become: false

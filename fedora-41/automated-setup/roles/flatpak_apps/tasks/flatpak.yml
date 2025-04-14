@@ -1,0 +1,19 @@
+---
+- name: Ensure Flatpak is installed
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+
+- name: Add Flathub remote system-wide
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: system
+
+- name: Install Flatpak apps from Flathub
+  community.general.flatpak:
+    name: "{{ flatpak_apps_list }}"
+    state: present
+    remote: flathub
+    method: system

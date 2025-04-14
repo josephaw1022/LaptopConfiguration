@@ -1,0 +1,26 @@
+---
+- name: Check if Azure Data Studio is installed
+  ansible.builtin.stat:
+    path: /usr/share/applications/azuredatastudio.desktop
+  register: azure_data_studio_check
+
+- name: Download Azure Data Studio RPM
+  ansible.builtin.get_url:
+    url: https://go.microsoft.com/fwlink/?linkid=2301926
+    dest: /tmp/azure-data-studio.rpm
+    mode: '0644'
+  when: not azure_data_studio_check.stat.exists
+
+- name: Install Azure Data Studio RPM
+  ansible.builtin.dnf:
+    name: /tmp/azure-data-studio.rpm
+    state: present
+    disable_gpg_check: true
+  become: true
+  when: not azure_data_studio_check.stat.exists
+
+- name: Clean up Azure Data Studio RPM
+  ansible.builtin.file:
+    path: /tmp/azure-data-studio.rpm
+    state: absent
+  when: not azure_data_studio_check.stat.exists

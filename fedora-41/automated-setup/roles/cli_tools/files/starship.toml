@@ -1,0 +1,38 @@
+format = """
+$username$hostname$directory$git_branch$git_status$time
+$character
+"""
+
+[username]
+style_user = "bold blue"
+show_always = true
+
+[hostname]
+ssh_only = false
+style = "bold cyan"
+format = "[$hostname](bold cyan) "
+
+[directory]
+style = "bold yellow"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " "
+read_only_style = "red"
+
+[git_branch]
+symbol = " "
+style = "bold green"
+
+[git_status]
+style = "green"
+format = '([$all_status$ahead_behind](green) )'
+
+[time]
+disabled = false
+format = "[$time](bold magenta) "
+time_format = "%T"
+style = "bold magenta"
+
+[character]
+success_symbol = "[➜](green)"
+error_symbol = "[➜](red)"

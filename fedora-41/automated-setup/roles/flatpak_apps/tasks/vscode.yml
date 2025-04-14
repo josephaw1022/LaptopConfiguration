@@ -1,0 +1,34 @@
+---
+- name: Check if Visual Studio Code is already installed
+  ansible.builtin.stat:
+    path: /usr/share/applications/code.desktop
+  register: vscode_check
+
+- name: Import Microsoft GPG key
+  ansible.builtin.rpm_key:
+    key: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  when: not vscode_check.stat.exists
+
+- name: Add VS Code YUM repository
+  ansible.builtin.copy:
+    dest: /etc/yum.repos.d/vscode.repo
+    content: |
+      [code]
+      name=Visual Studio Code
+      baseurl=https://packages.microsoft.com/yumrepos/vscode
+      enabled=1
+      autorefresh=1
+      type=rpm-md
+      gpgcheck=1
+      gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+    mode: '0644'
+  become: true
+  when: not vscode_check.stat.exists
+
+- name: Install Visual Studio Code
+  ansible.builtin.package:
+    name: code
+    state: present
+  become: true
+  when: not vscode_check.stat.exists

@@ -1,0 +1,10 @@
+---
+- name: Install cloud-provider-kind
+  ansible.builtin.shell: |
+    go install sigs.k8s.io/cloud-provider-kind@latest
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/go/bin/cloud-provider-kind"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
+  become: true

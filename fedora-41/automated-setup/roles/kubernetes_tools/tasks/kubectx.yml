@@ -1,0 +1,33 @@
+---
+- name: Check if kubectx is installed
+  ansible.builtin.command: which kubectx
+  register: kubectx_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Clone kubectx repo
+  ansible.builtin.git:
+    repo: https://github.com/ahmetb/kubectx
+    dest: /opt/kubectx
+    version: master
+    force: false
+  become: true
+  when: kubectx_check.rc != 0
+
+- name: Symlink kubectx
+  ansible.builtin.file:
+    src: /opt/kubectx/kubectx
+    dest: /usr/local/bin/kubectx
+    state: link
+    force: true
+  become: true
+  when: kubectx_check.rc != 0
+
+- name: Symlink kubens
+  ansible.builtin.file:
+    src: /opt/kubectx/kubens
+    dest: /usr/local/bin/kubens
+    state: link
+    force: true
+  become: true
+  when: kubectx_check.rc != 0

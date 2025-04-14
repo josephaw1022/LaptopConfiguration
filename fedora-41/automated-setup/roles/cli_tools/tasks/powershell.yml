@@ -1,0 +1,33 @@
+---
+- name: Check if PowerShell is installed
+  ansible.builtin.command: which pwsh
+  register: powershell_check
+  changed_when: false
+  ignore_errors: true
+
+- name: Import Microsoft GPG key for PowerShell
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://packages.microsoft.com/keys/microsoft.asc
+  when: powershell_check.rc != 0
+
+- name: Download PowerShell RPM
+  ansible.builtin.get_url:
+    url: https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell-7.4.6-1.rh.x86_64.rpm
+    dest: /tmp/powershell.rpm
+    mode: '0644'
+  when: powershell_check.rc != 0
+
+- name: Install PowerShell from RPM
+  ansible.builtin.dnf:
+    name: /tmp/powershell.rpm
+    state: present
+    disable_gpg_check: false
+  become: true
+  when: powershell_check.rc != 0
+
+- name: Clean up PowerShell RPM
+  ansible.builtin.file:
+    path: /tmp/powershell.rpm
+    state: absent
+  when: powershell_check.rc != 0

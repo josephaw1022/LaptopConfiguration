@@ -1,0 +1,6 @@
+---
+- name: Install cfssl via Go
+  ansible.builtin.command: go install {{ cli_tools_cfssl_go_package }}
+  environment:
+    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
+  changed_when: false

@@ -1,0 +1,23 @@
+---
+- name: Ensure pip3 is available
+  ansible.builtin.command: which pip3
+  register: cli_tools_pip3_check
+  changed_when: false
+  failed_when: cli_tools_pip3_check.rc != 0
+
+- name: Get installed pip packages
+  ansible.builtin.command: pip3 list --user --format=freeze
+  register: cli_tools_pip3_list
+  changed_when: false
+
+- name: Install Ansible tools (user scope)
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    extra_args: --user
+    executable: pip3
+  loop:
+    - ansible
+    - ansible-core
+    - ansible-dev-tools
+    - awxkit
+  when: "'{{ item }}==' not in cli_tools_pip3_list.stdout"

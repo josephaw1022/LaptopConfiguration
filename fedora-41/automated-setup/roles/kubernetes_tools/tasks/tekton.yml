@@ -1,0 +1,15 @@
+
+---
+- name: Check if Tekton CLI is installed
+  ansible.builtin.command: which tkn
+  register: tekton_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Tekton CLI (allow unsigned)
+  ansible.builtin.dnf:
+    name: https://github.com/tektoncd/cli/releases/download/v0.39.0/tektoncd-cli-0.39.0_Linux-64bit.rpm
+    state: present
+    disable_gpg_check: true
+  become: true
+  when: tekton_check.rc != 0

@@ -1,0 +1,28 @@
+---
+- name: Check if LocalStack CLI is installed
+  ansible.builtin.command: which localstack
+  register: cli_tools_localstack_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Download LocalStack CLI
+  ansible.builtin.get_url:
+    url: "{{ cli_tools_localstack_download_url }}"
+    dest: /tmp/localstack-cli.tar.gz
+    mode: '0644'
+  when: cli_tools_localstack_check.rc != 0
+
+- name: Install LocalStack CLI
+  ansible.builtin.unarchive:
+    src: /tmp/localstack-cli.tar.gz
+    dest: /usr/local/bin
+    remote_src: true
+    extra_opts: [--strip-components=0]
+  become: true
+  when: cli_tools_localstack_check.rc != 0
+
+- name: Remove LocalStack CLI archive
+  ansible.builtin.file:
+    path: /tmp/localstack-cli.tar.gz
+    state: absent
+  when: cli_tools_localstack_check.rc != 0

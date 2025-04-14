@@ -1,0 +1,24 @@
+---
+- name: Check if ArgoCD is installed
+  ansible.builtin.command: which argocd
+  register: argocd_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Download ArgoCD CLI
+  ansible.builtin.get_url:
+    url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    dest: /tmp/argocd
+    mode: '0555'
+  become: true
+  when: argocd_check.rc != 0
+
+- name: Install ArgoCD CLI
+  ansible.builtin.copy:
+    src: /tmp/argocd
+    dest: /usr/local/bin/argocd
+    remote_src: true
+    mode: '0555'
+    force: true
+  become: true
+  when: argocd_check.rc != 0

@@ -1,0 +1,15 @@
+---
+- name: Check if kind is installed
+  ansible.builtin.command: which kind
+  register: kind_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Kind
+  ansible.builtin.shell: |
+    go install sigs.k8s.io/kind@{{ kubernetes_tools_kind_version }}
+  args:
+    executable: /bin/bash
+  environment:
+    PATH: "{{ ansible_env.HOME }}/go/bin:{{ ansible_env.PATH }}"
+  when: kind_check.rc != 0

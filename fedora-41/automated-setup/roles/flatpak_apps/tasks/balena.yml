@@ -1,0 +1,26 @@
+---
+- name: Check if Etcher is already installed
+  ansible.builtin.stat:
+    path: /usr/share/applications/balena-etcher.desktop
+  register: etcher_check
+
+- name: Download Balena Etcher RPM
+  ansible.builtin.get_url:
+    url: https://github.com/balena-io/etcher/releases/download/v2.1.0/balena-etcher-2.1.0-1.x86_64.rpm
+    dest: /tmp/balena-etcher.rpm
+    mode: '0644'
+  when: not etcher_check.stat.exists
+
+- name: Install Balena Etcher (allow unsigned)
+  ansible.builtin.dnf:
+    name: /tmp/balena-etcher.rpm
+    state: present
+    disable_gpg_check: true
+  become: true
+  when: not etcher_check.stat.exists
+
+- name: Remove Balena Etcher RPM after install
+  ansible.builtin.file:
+    path: /tmp/balena-etcher.rpm
+    state: absent
+  when: not etcher_check.stat.exists

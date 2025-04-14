@@ -1,0 +1,51 @@
+---
+- name: Check if kubectl is installed
+  ansible.builtin.command: which kubectl
+  register: kubectl_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Get latest kubectl version
+  ansible.builtin.uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: true
+  register: kubectl_version
+  when: kubectl_check.rc != 0
+
+- name: Ensure ~/.local/bin exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: '0755'
+  when: kubectl_check.rc != 0
+
+- name: Install kubectl to ~/.local/bin
+  ansible.builtin.copy:
+    src: /tmp/kubectl
+    dest: "{{ ansible_env.HOME }}/.local/bin/kubectl"
+    remote_src: true
+    mode: '0755'
+    force: true
+  when: kubectl_check.rc != 0
+
+- name: Install kubectl to /usr/local/bin
+  ansible.builtin.copy:
+    src: /tmp/kubectl
+    dest: /usr/local/bin/kubectl
+    remote_src: true
+    mode: '0755'
+    force: true
+  become: true
+  when: kubectl_check.rc != 0
+
+- name: Ensure ~/.bashrc.d exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.bashrc.d"
+    state: directory
+    mode: '0755'
+
+- name: Persist kubectl alias and completion
+  ansible.builtin.copy:
+    src: kubectl-config.sh
+    dest: "{{ ansible_env.HOME }}/.bashrc.d/kubectl-config.sh"
+    mode: '0644'

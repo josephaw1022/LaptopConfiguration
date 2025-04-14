@@ -1,0 +1,12 @@
+---
+- name: Debug GNOME favorites command
+  ansible.builtin.debug:
+    msg: "gsettings set org.gnome.shell favorite-apps {{ \"['{}']\".format(flatpak_apps_gnome_favorites | join(\"', '\") ) }}"
+
+- name: Set GNOME favorite apps
+  ansible.builtin.shell: |
+    gsettings set org.gnome.shell favorite-apps "{{ "['{}']".format(flatpak_apps_gnome_favorites | join("', '")) }}"
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: false

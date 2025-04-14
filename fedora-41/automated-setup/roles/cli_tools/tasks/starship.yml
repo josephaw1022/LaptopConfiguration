@@ -1,0 +1,33 @@
+---
+- name: Check if Starship is installed
+  ansible.builtin.command: which starship
+  register: cli_tools_starship_check
+  changed_when: false
+  ignore_errors: true
+  become: false
+
+- name: Install Starship prompt
+  ansible.builtin.shell: |
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+  args:
+    executable: /bin/bash
+  when: cli_tools_starship_check.rc != 0
+  become: true
+
+- name: Install Starship shell config
+  ansible.builtin.copy:
+    src: starship-config.sh
+    dest: "{{ ansible_env.HOME }}/.bashrc.d/starship-config.sh"
+    mode: '0644'
+
+- name: Ensure ~/.config exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config"
+    state: directory
+    mode: '0755'
+
+- name: Install Starship TOML config
+  ansible.builtin.copy:
+    src: starship.toml
+    dest: "{{ ansible_env.HOME }}/.config/starship.toml"
+    mode: '0644'

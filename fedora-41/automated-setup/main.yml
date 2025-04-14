@@ -10,11 +10,11 @@
     - role: flatpak_apps
       become: true
 
+    - role: cli_tools
+      become: true
+
     - role: cockpit_setup
       become: true
 
     - role: kubernetes_tools
       become: false
-
-    - role: cli_tools
-      become: true
