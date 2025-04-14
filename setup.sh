@@ -1,19 +1,33 @@
 #!/bin/bash
 
-# Run DNF packages installation
-echo "Running DNF packages installation..."
-bash fedora-41/dnf-packages.sh
 
-# Run Flatpak packages installation
-echo "Running Flatpak packages installation..."
-bash fedora-41/flatpaks.sh
+pushd ./fedora-41/automated-setup
 
-# Run Kubernetes tooling installation
-echo "Running Kubernetes tooling installation..."
-bash fedora-41/kubernetes-tooling.sh
+# run bootstrap script
 
-# Run Miscellaneous configurations
-echo "Running miscellaneous configurations..."
-bash fedora-41/miscellaneous.sh
+bash ./bootstrap.sh
 
-echo "All setup scripts executed successfully!"
+
+# run github setup script 
+
+bash ./github-setup.sh
+
+
+# install needed collections
+
+make setup
+
+
+# create password file
+
+make password
+
+# Let the user know to add password to the file and then run the playbook via make run command
+echo "Please add your password to the password file and then run the playbook via make run command"
+echo "The password file is located at: $(pwd)/.ansible_sudo_password"
+echo "This is not optional, so do not skip this step."
+
+
+echo "To run the playbook, please execute the following commands:"
+echo "cd fedora-41/automated-setup"
+echo "make run"
