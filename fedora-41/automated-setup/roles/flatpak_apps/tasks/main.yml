@@ -8,4 +8,5 @@
 - import_tasks: balena.yml
   ignore_errors: false
 - import_tasks: gnome_favorites.yml
-  ignore_errors: true
+  when: ansible_env.DESKTOP_SESSION == 'gnome'
+  ignore_errors: false
