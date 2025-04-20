@@ -20,6 +20,8 @@ base_packages:
   - java-21-openjdk-devel
   - java-21-openjdk
   - gcc-c++
+  - catch2-devel
+  - cmake
 
 extra_dnf_packages:
   - dnf5-plugins
