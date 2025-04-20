@@ -19,6 +19,7 @@ base_packages:
   - cargo
   - java-21-openjdk-devel
   - java-21-openjdk
+  - gcc-c++
 
 extra_dnf_packages:
   - dnf5-plugins
