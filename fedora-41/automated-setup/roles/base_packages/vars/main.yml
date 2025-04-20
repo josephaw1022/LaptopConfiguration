@@ -4,7 +4,6 @@ base_packages:
   - openssl
   - dotnet-sdk-9.0
   - go-task
-  - java-latest-openjdk.x86_64
   - vim
   - python3-pip
   - podman
@@ -15,10 +14,11 @@ base_packages:
   - bat
   - tmux
   - toolbox
-  - podman-toolbox
   - make
   - rust
   - cargo
+  - java-21-openjdk-devel
+  - java-21-openjdk
 
 extra_dnf_packages:
   - dnf5-plugins
