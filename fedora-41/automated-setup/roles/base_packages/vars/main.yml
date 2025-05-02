@@ -22,6 +22,7 @@ base_packages:
   - gcc-c++
   - catch2-devel
   - cmake
+  - python3-ramalama
 
 extra_dnf_packages:
   - dnf5-plugins
