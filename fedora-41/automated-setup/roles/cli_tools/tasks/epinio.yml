@@ -1,0 +1,27 @@
+---
+- name: Download and install Epinio CLI
+  become: true
+  vars:
+    epinio_version: "v1.11.0"
+    epinio_url: "https://github.com/epinio/epinio/releases/download/{{ epinio_version }}/epinio-linux-x86_64"
+    epinio_dest: "/usr/local/bin/epinio"
+
+  tasks:
+    - name: Check if epinio is already installed
+      ansible.builtin.command: which epinio
+      register: epinio_check
+      changed_when: false
+      failed_when: false
+
+    - name: Download epinio binary if not installed
+      ansible.builtin.get_url:
+        url: "{{ epinio_url }}"
+        dest: "/tmp/epinio"
+        mode: '0755'
+      when: epinio_check.rc != 0
+
+    - name: Move epinio to /usr/local/bin
+      ansible.builtin.command: mv /tmp/epinio {{ epinio_dest }}
+      args:
+        creates: "{{ epinio_dest }}"
+      when: epinio_check.rc != 0

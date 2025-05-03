@@ -47,3 +47,8 @@
 - name: Install Starship
   ansible.builtin.import_tasks: starship.yml
   ignore_errors: false
+
+
+- name: Install Epinio
+  ansible.builtin.import_tasks: epinio.yml
+  ignore_errors: true
