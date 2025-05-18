@@ -1,0 +1,20 @@
+- name: Check if cmctl is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/cmctl
+  register: cmctl_bin
+
+- name: Download cmctl (Linux AMD64)
+  ansible.builtin.get_url:
+    url: https://github.com/cert-manager/cmctl/releases/latest/download/cmctl_linux_amd64
+    dest: /tmp/cmctl
+    mode: '0755'
+  when: not cmctl_bin.stat.exists
+
+- name: Move cmctl to /usr/local/bin
+  ansible.builtin.copy:
+    src: /tmp/cmctl
+    dest: /usr/local/bin/cmctl
+    mode: '0755'
+    remote_src: true
+  become: true
+  when: not cmctl_bin.stat.exists

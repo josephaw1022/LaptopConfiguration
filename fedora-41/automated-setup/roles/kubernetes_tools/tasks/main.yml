@@ -20,3 +20,7 @@
 
 - import_tasks: istio.yml
   ignore_errors: true
+
+
+- import_tasks: cmctl.yml
+  ignore_errors: true
