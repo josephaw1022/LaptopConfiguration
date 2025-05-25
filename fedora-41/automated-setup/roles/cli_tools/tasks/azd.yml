@@ -1,0 +1,23 @@
+---
+- name: Check if Azure Developer CLI (azd) is installed
+  ansible.builtin.command: which azd
+  register: cli_tools_azd_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Set Azure Developer CLI version
+  ansible.builtin.set_fact:
+    azd_version: "1.5.0"  # Replace with desired version
+
+- name: Download Azure Developer CLI .rpm package
+  ansible.builtin.get_url:
+    url: "https://github.com/Azure/azure-dev/releases/download/azure-dev-cli_{{ azd_version }}/azd-{{ azd_version }}-1.x86_64.rpm"
+    dest: "/tmp/azd-{{ azd_version }}-1.x86_64.rpm"
+    mode: '0644'
+  when: cli_tools_azd_check.rc != 0
+
+- name: Install Azure Developer CLI .rpm package
+  ansible.builtin.dnf:
+    name: "/tmp/azd-{{ azd_version }}-1.x86_64.rpm"
+    state: present
+  when: cli_tools_azd_check.rc != 0

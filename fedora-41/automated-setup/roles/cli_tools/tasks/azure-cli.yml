@@ -1,0 +1,31 @@
+---
+- name: Check if Azure CLI is installed
+  ansible.builtin.command: which az
+  register: cli_tools_azure_cli_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Import Microsoft GPG key for Azure CLI
+  ansible.builtin.rpm_key:
+    key: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  when: cli_tools_azure_cli_check.rc != 0
+
+- name: Download Azure CLI repository RPM
+  ansible.builtin.get_url:
+    url: https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
+    dest: /tmp/packages-microsoft-prod.rpm
+    mode: '0644'
+  when: cli_tools_azure_cli_check.rc != 0
+
+- name: Install Azure CLI repository package
+  ansible.builtin.dnf:
+    name: /tmp/packages-microsoft-prod.rpm
+    state: present
+  when: cli_tools_azure_cli_check.rc != 0
+
+- name: Install Azure CLI package
+  ansible.builtin.dnf:
+    name: azure-cli
+    state: present
+  when: cli_tools_azure_cli_check.rc != 0

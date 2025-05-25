@@ -52,3 +52,12 @@
 - name: Install Epinio
   ansible.builtin.import_tasks: epinio.yml
   ignore_errors: true
+
+- name: Install Azure Developer CLI
+  ansible.builtin.import_tasks: azd.yml
+  ignore_errors: true
+
+
+- name: Install Azure CLI
+  ansible.builtin.import_tasks: azure-cli.yml
+  ignore_errors: true
