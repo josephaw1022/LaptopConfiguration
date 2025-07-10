@@ -25,5 +25,4 @@ base_packages:
   - python3-ramalama
 
 extra_dnf_packages:
-  - dnf5-plugins
   - dnf-plugins-core

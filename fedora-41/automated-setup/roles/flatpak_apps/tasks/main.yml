@@ -3,8 +3,8 @@
   ignore_errors: false
 - import_tasks: azure-data-studio.yml
   ignore_errors: false
-- import_tasks: vscode.yml
-  ignore_errors: false
+# - import_tasks: vscode.yml
+#   ignore_errors: false
 - import_tasks: balena.yml
   ignore_errors: false
 - import_tasks: gnome_favorites.yml

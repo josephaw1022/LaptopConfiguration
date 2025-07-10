@@ -30,11 +30,11 @@
 
 - name: Install PowerShell
   ansible.builtin.import_tasks: powershell.yml
-  ignore_errors: false
+  ignore_errors: true
 
 - name: Install Terraform
   ansible.builtin.import_tasks: terraform.yml
-  ignore_errors: false
+  ignore_errors: true
 
 - name: Install NVM
   ansible.builtin.import_tasks: nvm.yml
@@ -42,11 +42,11 @@
 
 - name: Install Quarkus CLI
   ansible.builtin.import_tasks: quarkus.yml
-  ignore_errors: false
+  ignore_errors: true
 
 - name: Install Starship
   ansible.builtin.import_tasks: starship.yml
-  ignore_errors: false
+  ignore_errors: true
 
 
 - name: Install Epinio
